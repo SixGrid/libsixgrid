@@ -1,0 +1,20 @@
+{
+    "name": "libsixgrid",
+    "version": "1.0.0",
+    "main": "dist/src/index.js",
+    "typings": "dist/src/index.d.ts",
+    "scripts": {
+        "watch": "tsc --watch",
+        "build": "tsc --build"
+    },
+    "author": "Kate Ward <kate@dariox.club>",
+    "license": "apache-2.0",
+    "dependencies": {
+        "axios": "^0.24.0"
+    },
+    "devDependencies": {
+        "@types/events": "^3.0.0",
+        "@types/node": "^17.0.35",
+        "typescript": "^4.6.4"
+    }
+}
