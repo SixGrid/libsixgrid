@@ -25,8 +25,25 @@ export default class Searcher
         usrappr: /approver:[a-z0-9_\-]/i,
         usrdel: /deletedby:[a-z0-9_\-]/i,
         usrcomment: /commenter:[a-z0-9_\-]/i,
-        usrnote: /noteupdater:[a-z0-9_\-]/i
+        usrnote: /noteupdater:[a-z0-9_\-]/i,
 
+        postid: /id:[0-9]+/i,
+        postscore: /score:(([<>]{1}([=]{0,1}|))|)[0-9]+/i,
+        postfav: /favcount:(<|<=|)[0-9]+/i,
+        postcommentcount: /comment_count:[0-9]+/i,
+        posttags: /tagcount:[0-9]+/i,
+        postgenerictags: /gentags:[0-9]+/i,
+        postartisttags: /arttags:[0-9]+/i,
+        postchartags: /chartags:[0-9]+/i,
+        postcopytags: /copytags:[0-9]+/i,
+        postspeciestags: /spectags:[0-9]+/i,
+        postinvalidtags: /invtags:[0-9]+/i,
+        postloretags: /lortags:[0-9]+/i,
+
+        imagewidth: /width:[0-9]+/i,
+        imageheight: /height:[0-9]+/i,
+        imagempixels: /mpixels:[0-9]+/i,
+        imageratio: /mpixels:[0-9]+(\.[0-9]+){0,1}/i,
     }
 
     public IsQueryValid(query: string) : boolean
