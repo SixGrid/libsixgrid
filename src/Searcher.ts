@@ -43,7 +43,38 @@ export default class Searcher
         imagewidth: /width:[0-9]+/i,
         imageheight: /height:[0-9]+/i,
         imagempixels: /mpixels:[0-9]+/i,
-        imageratio: /mpixels:[0-9]+(\.[0-9]+){0,1}/i,
+        imageratio: /ratio:[0-9]+(\.[0-9]+){0,1}/i,
+        imagefilesize: /filesize:[0-9]+([MKBT]{0,1}B)/i,
+
+        videoduration: /duration:[<>]{0,1}[0-9]+/i,
+
+        ratingsafe: /rating:s(afe|)/i,
+        ratingquestionable: /rating:q(uestionable|)/i,
+        ratingexplicit: /rating:e(xplicit|)/i,
+
+        types: /type:(jpg|png|gif|swf|webm)/i,
+
+        isparent: /isparent:(true|false)/i,
+        ischild: /ischild:(true|false)/i,
+        parent: /parent:([0-9]+|none)/i,
+
+        status: /status:(pending|active|deleted|flagged|any)/i,
+
+        hassource: /hassource:(true|false)/i,
+        hasdescription: /hasdescription:(true|false)/i,
+        ratinglocked: /ratinglocked:(true|false)/i,
+        notelocked: /notelocked:(true|false)/i,
+        hideanon: /hideanon:(true|false)/i,
+        hidegoogle: /hidegoogle:(true|false)/i,
+        inpool: /inpool:(true|false)/i,
+        pendingreplacements: /pending_replacements:(true|false)/i,
+
+        poolorset: /(pool|set):([0-9]+|[0-9A-Za-z\-_]+)/i,
+
+        md5: /md5:[a-zA-F0-9]{32}/i,
+
+        order: /order:(id|random|score|score|favcount|tagcount|comment_count|comment_bumped|mpixels|filesize|landscape|change|duration)/i,
+        orderalt: /order:(score_asc|score_asc|favcount_asc|tagcount_asc|comment_count_asc|comment_bumped_asc|mpixels_asc|filesize_asc|portrait|duration_asc)/i,
     }
 
     public IsQueryValid(query: string) : boolean
