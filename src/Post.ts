@@ -1,10 +1,11 @@
 import { EventEmitter } from 'events'
 import * as Client from './Client'
 import { IRawPost } from './RawPost'
+import { IRemoteItem } from './SearchInstance'
 
 declare type ParentPost = Post
 
-export default class Post extends EventEmitter {
+export default class Post extends EventEmitter implements IRemoteItem {
     public data: IRawPost = {}
 
     public Client: Client.default
@@ -72,6 +73,9 @@ export default class Post extends EventEmitter {
      */
     get ID() { return this.data.id; }
     set ID(v) {}
+
+    get id () { return this.data.id; }
+    set id (v) { }
 
     /**
      * @type {Date}
