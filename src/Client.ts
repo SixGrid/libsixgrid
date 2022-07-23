@@ -77,6 +77,7 @@ export default class Client extends EventEmitter {
         if (this.PostCache[post_id.toString()] == undefined) {
             await this.GetPost(post_id)
         }
+        this.emit('post:favorite', post_id)
         this.PostCache[post_id.toString()].emit('update')
         return this.PostCache[post_id.toString()]
     }
