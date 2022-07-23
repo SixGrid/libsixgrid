@@ -39,7 +39,7 @@ export default class Post extends EventEmitter implements IRemoteItem {
     }
 
     async _Update() {
-        let res = await this.Client.WebClient.get(`/posts.json?id=${this.data.id}`);
+        let res = await this.Client.WebClient.get(`/posts/${this.data.id}.json`);
         if (res.data != undefined) {
             this.data = res.data.post;
             this._Format(this.data);
@@ -99,9 +99,9 @@ export default class Post extends EventEmitter implements IRemoteItem {
      */
     get Image() {
         return Object.assign({}, {
-            File: Object.assign({}, this.data.file, {url: this.data.file?.url?.replace("http://192.168.1.220:3000/", "https://static1.e621.net/")}),
-            Preview: Object.assign({}, this.data.preview, {url: this.data.preview?.url?.replace("http://192.168.1.220:3000/", "https://static1.e621.net/")}),
-            Sample: Object.assign({}, this.data.sample, {url: this.data.preview?.url?.replace("http://192.168.1.220:3000/", "https://static1.e621.net/")})
+            File: this.data.file,
+            Preview: this.data.preview,
+            Sample: this.data.sample
         })
     }
     set Image (value) {}
