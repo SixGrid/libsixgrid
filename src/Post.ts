@@ -99,9 +99,9 @@ export default class Post extends EventEmitter implements IRemoteItem {
      */
     get Image() {
         return Object.assign({}, {
-            File: Object.assign({}, this.data.file, {url: this.data.file.url.replace("http://192.168.1.220:3000/", "https://static1.e621.net/")}),
-            Preview: Object.assign({}, this.data.preview, {url: this.data.preview?.url.replace("http://192.168.1.220:3000/", "https://static1.e621.net/")}),
-            Sample: Object.assign({}, this.data.sample, {url: this.data.preview?.url.replace("http://192.168.1.220:3000/", "https://static1.e621.net/")})
+            File: Object.assign({}, this.data.file, {url: this.data.file?.url?.replace("http://192.168.1.220:3000/", "https://static1.e621.net/")}),
+            Preview: Object.assign({}, this.data.preview, {url: this.data.preview?.url?.replace("http://192.168.1.220:3000/", "https://static1.e621.net/")}),
+            Sample: Object.assign({}, this.data.sample, {url: this.data.preview?.url?.replace("http://192.168.1.220:3000/", "https://static1.e621.net/")})
         })
     }
     set Image (value) {}
