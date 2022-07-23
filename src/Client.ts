@@ -232,7 +232,7 @@ export default class Client extends EventEmitter {
             'commit': 'Submit',
             'comment[is_sticky]': sticky ? 1 : 0
         })
-        let res = await this.WebClient.post(`/comments/${id}.json`, params)
+        let res = await this.WebClient.post(`/comments/${id}.json?${params}`, params)
         if (res.error) throw res.error
         return res
     }
