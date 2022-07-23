@@ -144,7 +144,7 @@ export default class Client extends EventEmitter {
         
         let response = null
         try {
-            response = await this.WebClient.get(`${this.Endpoint}/posts.json?tags=${encodeURIComponent(options.query)}&page=${options.page}&limit=${options.limit}${options.extraParameters}`)
+            response = await this.WebClient.get(`/posts.json?tags=${encodeURIComponent(options.query)}&page=${options.page}&limit=${options.limit}${options.extraParameters}`)
         } catch (error) {
             throw error;
         }
