@@ -4,7 +4,7 @@ import * as packageJSON from '../package.json'
 import AuthR from './AuthR'
 import WebClient from './WebClient'
 import PostObject from './Post'
-import Comment from './Comment'
+import Comment, { IRawComment } from './Comment'
 
 export function sleepfor(time: number) : Promise<null> {
     return new Promise((resolve) => setTimeout(resolve, time))
@@ -136,6 +136,8 @@ export default class Client extends EventEmitter {
     public SearchParameters: ISearchParameters = DefaultISearchParameters
 
     public PostCache : {[key: string]: PostObject } = {}
+    public CommentCache: {[key: string]: Comment} = {}
+    private commentCacheArray: Comment[] = []
 
     public async Search(options: ISearchParameters = DefaultISearchParameters) : Promise<PostObject[]> {
         options = Object.assign({}, this.SearchParameters, options);
@@ -174,6 +176,29 @@ export default class Client extends EventEmitter {
         })
 
         return returnData;
+    }
+
+    private async parseComment(data: IRawComment)
+    {
+        this.commentCacheArray.push(new Comment(this, data.id, data))
+        return data.id
+    }
+    private async appendComment(data: IRawComment)
+    {
+        // Check if this comment exists
+        if (this.CommentCache[data.id.toString()] == undefined)
+        {
+            this.parseComment(data)
+            this.updateCommentCacheObject()
+        }
+    }
+    private updateCommentCacheObject()
+    {
+        for (let item of this.commentCacheArray)
+        {
+            if (this.CommentCache[item.ID.toString()] == undefined)
+                this.CommentCache[item.ID.toString()] = item
+        }
     }
 
     public async DeleteCommentID(id: number)
