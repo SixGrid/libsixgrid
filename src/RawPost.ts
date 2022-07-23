@@ -32,7 +32,7 @@ export interface IRawPostFile extends IRawPostPreview {
 export interface IRawPostPreview {
     width: Number,
     height: Number,
-    url?: Number
+    url?: string
 }
 export interface IRawPostSample extends IRawPostPreview {
     has: boolean,
