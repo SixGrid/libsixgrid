@@ -80,7 +80,7 @@ export default class WebClient extends EventEmitter {
 
             let error;
 
-            if (statusCode != 200) {
+            if (statusCode > 299 && statusCode < 200) {
                 error = new Error('Request Failed.\n' + `Status Code: ${statusCode} ${response.statusMessage ?? ''}`);
             }
             if (error) {
