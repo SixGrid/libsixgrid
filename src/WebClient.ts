@@ -1,6 +1,7 @@
 import * as Client from './Client'
 import { EventEmitter } from 'events'
 import * as https from 'https'
+import * as httpInsecure from 'http'
 import * as packageJSON from '../package.json'
 import URL from './URL'
 import AuthR from './AuthR'
@@ -70,14 +71,17 @@ export default class WebClient extends EventEmitter {
             options.path = `${options.path}?${this.Auth.toString()}`;
         }
         options = Object.assign({}, options)
-        return https.request(options, (response: CustomIncomingMessage) => {
+        let targetLibrary: any = httpInsecure
+        if (this.BaseURL.startsWith('https'))
+            targetLibrary = https
+        return targetLibrary.request(options, (response: CustomIncomingMessage) => {
             const { statusCode } = response;
             const contentType = response.headers["content-type"];
 
             let error;
 
             if (statusCode != 200) {
-                error = new Error('Request Failed.\n' + `Status Code: ${statusCode}`);
+                error = new Error('Request Failed.\n' + `Status Code: ${statusCode} ${response.statusMessage ?? ''}`);
             }
             if (error) {
                 response.error = error;
