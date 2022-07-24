@@ -4,6 +4,7 @@ import * as packageJSON from '../package.json'
 import AuthR from './AuthR'
 import WebClient from './WebClient'
 import PostObject from './Post'
+import Comment from './Comment'
 
 export function sleepfor(time: number) : Promise<null> {
     return new Promise((resolve) => setTimeout(resolve, time))
@@ -173,6 +174,42 @@ export default class Client extends EventEmitter {
         })
 
         return returnData;
+    }
+
+    public async DeleteCommentID(id: number)
+    {
+        let res = await this.WebClient.delete(`/comments/${id}.json`)
+        if (res.error) throw res.error;
+        return res;
+    }
+    public async CommentReply(comment: Comment, content: string, bump: boolean=false, sticky: boolean=false)
+    {
+        let params = WebClient.ObjectToParameters({
+            'comment[post_id]': comment.ID,
+            'comment[body]': `[quote]"${comment.CreatorUsername}":/user/show/${comment.CreatorID}+said:\r\n${comment.Content.replace(" ", "+")}\r\n[/quote]\r\n\r\n${content}`,
+            'commit': 'Submit',
+            'comment[do_not_bump_post]': bump ? 1 : 0,
+            'comment[is_sticky]': sticky ? 1 : 0
+        })
+        let res = await this.WebClient.post(`/comments`, params)
+        if (res.error) throw res.error
+        return res
+    }
+    public async CommentEdit(comment: Comment, content: string, sticky: boolean=false)
+    {
+        return this.CommentEditByID(comment.ID, content, sticky)
+    }
+    public async CommentEditByID(id: number, content: string, sticky: boolean=false)
+    {
+        let params = WebClient.ObjectToParameters({
+            '_method': 'patch',
+            'comment[body]': content,
+            'commit': 'Submit',
+            'comment[is_sticky]': sticky ? 1 : 0
+        })
+        let res = await this.WebClient.post(`/comments/${id}.json`, params)
+        if (res.error) throw res.error
+        return res
     }
 
     public Auth: AuthR = null
