@@ -1,3 +1,4 @@
+import Searcher from "./Searcher"
 import Post from "./Post"
 
 export type SearchItem = Post
@@ -9,6 +10,11 @@ export interface IRemoteItem
 
 export default class SearchInstance
 {
+    public constructor(searcher: Searcher, query: string)
+    {
+
+    }
+
     private cachedItems: SearchItem[] = []
 
     public current: SearchItem = null

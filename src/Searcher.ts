@@ -1,4 +1,5 @@
 import { Client } from "."
+import SearchInstance from "./SearchInstance"
 
 export default class Searcher
 {
@@ -14,6 +15,7 @@ export default class Searcher
         if (!isValid)
             throw new Error(`Search query '${query}' is invalid`)
         let instance: SearchInstance = new SearchInstance(this, query)
+        return instance
     }
 
     private QueryRegExpTable = {
