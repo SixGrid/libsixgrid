@@ -165,7 +165,7 @@ export default class WebClient extends EventEmitter {
         })
     }
 
-    delete(url: string, data: any = {}) : Promise<CustomIncomingMessage> {
+    delete(url: string, data?: any) : Promise<CustomIncomingMessage> {
         // If the url does not start with `http`/`https`, prepend `this.BaseURL`
         if (url.match(/^http(s)/g) == null) url = this.BaseURL + url;
 
