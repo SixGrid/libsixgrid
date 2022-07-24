@@ -40,7 +40,7 @@ export default class Post extends EventEmitter implements IRemoteItem {
 
     async _Update() {
         let res = await this.Client.WebClient.get(`/posts.json?id=${this.data.id}`);
-        if (res.data == undefined) {
+        if (res.data != undefined) {
             this.data = res.data.post;
             this._Format(this.data);
             this.emit('done', 'update');
