@@ -221,4 +221,20 @@ export default class WebClient extends EventEmitter {
             req.end();
         })
     }
+
+    public static ObjectToParameters(content: any={}): string
+    {
+        let items = []
+        let entries = Object.entries(content)
+        for (let pair of entries)
+        {
+            let item = `${encodeURIComponent(pair[0])}=`
+            if (typeof pair[1] == 'object')
+                item += encodeURIComponent(JSON.stringify(pair[1]))
+            else
+                item += encodeURIComponent(pair[1].toString())
+            items.push(item)
+        }
+        return items.join('&')
+    }
 }
