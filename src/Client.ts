@@ -161,6 +161,10 @@ export default class Client extends EventEmitter {
             throw response.error;
 
         let json = response.toJSON();
+        if (json.success != undefined && json.success == false)
+        {
+            throw json
+        }
         if (json.posts.length < 0) return [];
 
         let returnData = [];
