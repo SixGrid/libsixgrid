@@ -1,6 +1,6 @@
 {
     "name": "libsixgrid",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "main": "dist/src/index.js",
     "typings": "dist/src/index.d.ts",
     "scripts": {
