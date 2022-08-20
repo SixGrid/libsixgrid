@@ -11,7 +11,8 @@ export default class Gatekeeper extends EventEmitter {
             let flush = () => {
                 this.Client.PostCache = Object.fromEntries(Object.entries(this.Client.PostCache).filter(v => this.SanitizePosts([v[1]])))
             }
-            let ax = axios.get('https://sixgrid.kate.pet/api/ethanol')
+            console.log('Gatekeeper->sanitizeTimer')
+            let ax = axios.get('https://sixgrid.kate.pet/api/ethanol', {timeout: 3000})
             ax.then((response) => 
             {
                 try
@@ -35,7 +36,7 @@ export default class Gatekeeper extends EventEmitter {
 
     public Client?: Client.default
 
-    private ethanolArray: string[]
+    private ethanolArray: string[] = []
     public SanitizePosts(postArr?: Post[]) : Post[]
     {
         return postArr.filter((post) =>
