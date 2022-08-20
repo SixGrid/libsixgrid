@@ -5,6 +5,7 @@ import AuthR from './AuthR'
 import WebClient from './WebClient'
 import PostObject from './Post'
 import Comment, { IRawComment } from './Comment'
+import Gatekeeper from './Gatekeeper'
 
 export function sleepfor(time: number) : Promise<null> {
     return new Promise((resolve) => setTimeout(resolve, time))
@@ -57,6 +58,7 @@ export default class Client extends EventEmitter {
 
         options = Object.assign({}, DefaultIClientOptions, options)
 
+        this.Gatekeeper = new Gatekeeper(this)
         this.Auth = new AuthR(this, options.auth)
         this.DeveloperMetrics = options.developerMetrics
         this.Product = options.product
@@ -66,6 +68,11 @@ export default class Client extends EventEmitter {
             Auth: this.Auth,
             BaseURL: this.Endpoint
         })
+    }
+
+    private sanitize(): void
+    {
+        this.PostCache = Object.fromEntries(Object.entries(this.PostCache).filter(v => this.Gatekeeper.SanitizePosts([v[1]])))
     }
 
     async Favorite(post_id: Number, status: boolean) : Promise<PostObject> {
@@ -131,6 +138,7 @@ export default class Client extends EventEmitter {
         } else {
             await this.PostCache[post_id.toString()].emit('update')
         }
+        this.sanitize()
         return this.PostCache[post_id.toString()]
     }
 
@@ -176,6 +184,7 @@ export default class Client extends EventEmitter {
             }
         })
 
+        this.sanitize()
         return returnData;
     }
 
@@ -192,6 +201,7 @@ export default class Client extends EventEmitter {
             this.parseComment(data)
             this.updateCommentCacheObject()
         }
+        this.CommentCache[data.id.toString()] = new Comment(this, data.id, data)
     }
     private updateCommentCacheObject()
     {
@@ -239,6 +249,7 @@ export default class Client extends EventEmitter {
     }
 
     public Auth: AuthR = null
+    private Gatekeeper: Gatekeeper = null
     public DeveloperMetrics: boolean = false
     public Product: IClientProduct
     public Endpoint: string = 'https://e926.net'
