@@ -189,7 +189,7 @@ export default class Client extends EventEmitter {
         })
 
         this.sanitize()
-        return returnData;
+        return this.Gatekeeper.SanitizePosts(returnData);
     }
 
     private async parseComment(data: IRawComment)
