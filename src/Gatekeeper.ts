@@ -8,24 +8,27 @@ export default class Gatekeeper extends EventEmitter {
         super()
         this.Client = client
         let sanitizeTimer = () => {
+            if (!this.ThouShaltNotPass) return;
             let flush = () => {
                 this.Client.PostCache = Object.fromEntries(Object.entries(this.Client.PostCache).filter(v => this.SanitizePosts([v[1]])))
             }
-            let ax = axios.get('https://sixgrid.kate.pet/api/ethanol', {timeout: 3000})
-            ax.then((response) => 
+            axios.get('https://gist.githubusercontent.com/ktwrd/fc5380378cb92b6ffca48b9337310472/raw/3c1ae481d2e532a31b0c4c652ddbfa4d941ba3d7/ethanol.json', {timeout: 3000})
+            .then((response) => 
             {
+                console.log(response)
                 try
                 {
-                    this.ethanolArray = JSON.parse(response.data)
+                    this.ethanolArray = JSON.parse(JSON.stringify(response.data))
                     flush()
                 }
-                catch (e){}
-                setInterval(() => {
+                catch (e){console.error(`[Gatekeeper->sanitize] Failed to flush`, e)}
+                setTimeout(() => {
                     sanitizeTimer()
                 }, 60000)
             })
-            .catch(() => {
-                setInterval(() => {
+            .catch((err) => {
+                console.log(`[Gatekeeper->sanitize] Failed`, err)
+                setTimeout(() => {
                     sanitizeTimer()
                 }, 60000)
             })
@@ -34,6 +37,14 @@ export default class Gatekeeper extends EventEmitter {
     }
 
     public Client?: Client.default
+    private ThouShaltNotPass: boolean = true
+
+    get Allow() { return this.ThouShaltNotPass; }
+
+    public Destroy(): void
+    {
+        this.ThouShaltNotPass = false
+    }
 
     private ethanolArray: string[] = []
     public SanitizePosts(postArr?: Post[]) : Post[]
