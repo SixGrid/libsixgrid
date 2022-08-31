@@ -7,6 +7,8 @@ import PostObject from './Post'
 import Comment, { IRawComment } from './Comment'
 import Gatekeeper from './Gatekeeper'
 
+import {IUserRaw, User} from './User'
+
 export function sleepfor(time: number) : Promise<null> {
     return new Promise((resolve) => setTimeout(resolve, time))
 }
@@ -250,6 +252,29 @@ export default class Client extends EventEmitter {
         let res = await this.WebClient.post(`/comments/${id}.json?${params}`, params)
         if (res.error) throw res.error
         return res
+    }
+
+    public UserCache: {[key: string]: User} = {}
+    public async FetchUser(id: number): Promise<User>
+    {
+        let response = null
+        try {
+            response = await this.WebClient.get(`/users/${encodeURIComponent(id)}.json`)
+        } catch (error) {
+            throw error;
+        }
+
+        if (response.error != null)
+            throw response.error
+
+        let json: IUserRaw = response.toJSON();
+        if (json.id == undefined)
+            throw json
+        
+        if (this.UserCache[id] == undefined)
+            this.UserCache[id] = new User(this)
+        this.UserCache[id]._data = json
+        return this.UserCache[id]
     }
 
     public Auth: AuthR = null
