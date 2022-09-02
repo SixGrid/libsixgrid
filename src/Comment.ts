@@ -26,9 +26,9 @@ export default class Comment
 {
     public data: IRawComment = {}
     public Client: Client.default
-    public get Post(): Nullable<Post>
+    public get Post(): Promise<Nullable<Post>>
     {
-        return this.Client.PostCache[this.data.post_id] || null
+        return this.Client.Post.fetch(this.data.post_id)
     }
 
     public constructor(client: Client.default, commentID: number, data: IRawComment)
@@ -89,10 +89,10 @@ export default class Comment
 
     public async Delete()
     {
-        return this.Client.DeleteCommentID(this.data.id)
+        return this.Client.Comment.delete(this.ID)
     }
     public async Reply(content: string)
     {
-        return this.Client.CommentReply(this, content)
+        return this.Client.Comment.reply(this.ID, content)
     }
 }

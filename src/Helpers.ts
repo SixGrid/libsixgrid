@@ -1,8 +1,6 @@
-const PostRating = {
-    Safe: "s",
-    Questionable: "q",
-    Explicit: "e"
-}
-module.exports = {
-    PostRating,
+export enum PostRating
+{
+    Safe = 's',
+    Questionable = 'q',
+    Explicit = 'e'
 }

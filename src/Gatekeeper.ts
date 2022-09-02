@@ -10,7 +10,7 @@ export default class Gatekeeper extends EventEmitter {
         let sanitizeTimer = () => {
             if (!this.ThouShaltNotPass) return;
             let flush = () => {
-                this.Client.PostCache = Object.fromEntries(Object.entries(this.Client.PostCache).filter(v => this.SanitizePosts([v[1]])))
+                this.Client.Post.cache = this.Client.Post.cache.filter(v => this.Vaccinated(v))
             }
             axios.get('https://gist.githubusercontent.com/ktwrd/fc5380378cb92b6ffca48b9337310472/raw/3c1ae481d2e532a31b0c4c652ddbfa4d941ba3d7/ethanol.json', {timeout: 3000})
             .then((response) => 
@@ -70,5 +70,27 @@ export default class Gatekeeper extends EventEmitter {
             }
             return true
         })
+    }
+
+    public Vaccinated(post: Post): boolean
+    {
+        for (let bottle of this.ethanolArray)
+        {
+            if (post.Tags.general.includes(bottle))
+                return false
+            if (post.Tags.species.includes(bottle))
+                return false
+            if (post.Tags.character.includes(bottle))
+                return false
+            if (post.Tags.artist.includes(bottle))
+                return false
+            if (post.Tags.invalid.includes(bottle))
+                return false
+            if (post.Tags.lore.includes(bottle))
+                return false
+            if (post.Tags.meta.includes(bottle))
+                return false
+        }
+        return true
     }
 }

@@ -5,7 +5,7 @@ export type SearchItem = Post
 
 export interface IRemoteItem
 {
-    id: Number
+    id: number
 }
 
 export default class SearchInstance

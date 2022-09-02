@@ -42,12 +42,33 @@ export interface IUserRaw
 export class User implements IUser
 {
     private Client: Client = null
-    public constructor(client: Client)
+    public constructor(client: Client, data: IUserRaw)
     {
         this.Client = client
+        this._data = data
     }
 
     public _data: IUserRaw = null
+
+    public async _Update(): Promise<void>
+    {
+        let response = null
+        try
+        {
+            response = await this.Client.WebClient.get(`/users/${encodeURIComponent(this.ID)}.json`)
+        }
+        catch (error) {
+            throw error;
+        }
+
+        if (response.error != null)
+            throw response.error
+        let json: IUserRaw = response.toJSON()
+        if (json.id == undefined)
+            throw json
+        
+        this._data = json
+    }
 
     //- Basic Details
     get Name() { return this._data.name }

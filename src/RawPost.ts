@@ -1,5 +1,5 @@
 export interface IRawPost {
-    id?: Number,
+    id?: number,
     created_at?: string,
     updated_at?: string,
     file?: IRawPostFile,
@@ -8,30 +8,30 @@ export interface IRawPost {
     score?: IRawPostScore,
     tags?: IRawPostTags,
     locked_tags?: string[],
-    change_seq?: Number,
+    change_seq?: number,
     flags?: IRawPostFlags,
     rating?: string,
-    fav_count?: Number,
+    fav_count?: number,
     sources?: string[],
-    pools?: Number[],
+    pools?: number[],
     relationships?: IRawPostRelationships,
-    approver_id?: Number,
-    uploader_id?: Number,
+    approver_id?: number,
+    uploader_id?: number,
     description?: string,
-    comment_count?: Number,
+    comment_count?: number,
     is_favorited?: boolean,
     has_notes?: boolean,
-    duration?: Number
+    duration?: number
 }
 
 export interface IRawPostFile extends IRawPostPreview {
     ext: string,
-    size: Number,
+    size: number,
     md5: string
 }
 export interface IRawPostPreview {
-    width: Number,
-    height: Number,
+    width: number,
+    height: number,
     url?: string
 }
 export interface IRawPostSample extends IRawPostPreview {
@@ -40,9 +40,9 @@ export interface IRawPostSample extends IRawPostPreview {
 }
 
 export interface IRawPostScore {
-    up: Number,
-    down: Number,
-    total: Number
+    up: number,
+    down: number,
+    total: number
 }
 export interface IRawPostTags {
     general: string[],
@@ -65,8 +65,8 @@ export interface IRawPostFlags {
 }
 
 export interface IRawPostRelationships {
-    parent_id?: Number,
+    parent_id?: number,
     has_children: boolean,
     has_active_children: boolean,
-    children?: Number[]
+    children?: number[]
 }

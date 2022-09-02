@@ -17,7 +17,7 @@ export default class Post extends EventEmitter implements IRemoteItem {
      * @param {Object} data
      * @param {SearchInstance|Pool|PostGroup} parent 
      */
-    constructor(client: Client.default, post_id: Number, data: IRawPost, parent: ParentPost) {
+    constructor(client: Client.default, post_id: number, data: IRawPost, parent: ParentPost) {
         super();
         this.data.id = post_id;
         this.Client = client;
@@ -65,6 +65,16 @@ export default class Post extends EventEmitter implements IRemoteItem {
                 this.Children.push(new Post(this.Client, data.relationships.children[i], {id: data.relationships.children[i] }, this));
             }
         }
+    }
+
+    public async Favorite(state=true): Promise<void>
+    {
+        if (state)
+            await this.Client.WebClient.post(`/favorites.json`, `post_id=${this.ID}`)
+        else
+            await this.Client.WebClient.delete(`/favorites/${this.ID}.json`)
+        this.Client.emit('post:favorite', this.ID)
+        this.emit('favorite', state)
     }
 
     /**
@@ -123,9 +133,9 @@ export default class Post extends EventEmitter implements IRemoteItem {
             set total (value) {}
         })
     }
-    public Score_Self?: Number = null
+    public Score_Self?: number = null
 
-    async Vote(score: Number=0, no_unvote: boolean=false) : Promise<void> {
+    async Vote(score: number=0, no_unvote: boolean=false) : Promise<void> {
 
         // Failsafe for really stupid programmers.
         if (score < -1) score = -1;
@@ -191,8 +201,8 @@ export default class Post extends EventEmitter implements IRemoteItem {
      * @type {boolean}
      * @default false
      */
-    get Favorite() {return this.data.is_favorited || false}
-    set Favorite(v) {
+    get IsFavorite() {return this.data.is_favorited || false}
+    set IsFavorite(v) {
         if (typeof v != "boolean") throw new Error("Invalid type, must be boolean.");
         this.data.is_favorited = v;
         let self = this;
