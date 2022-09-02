@@ -82,6 +82,10 @@ export default class PostManager extends BaseManager<number, Post>
         if (post == null)
             throw new Error(`Post ${postID} does not exist`)
         await post.Vote(direction)
+        this.client.emit('post:vote', {
+            id: postID,
+            state: direction
+        })
         return post
     }
 
@@ -141,6 +145,8 @@ export default class PostManager extends BaseManager<number, Post>
                 items.push(this.cache.get(rawPost.id))
             }
         }
+
+        this.client.emit('post:search', options.query)
         
         return this.client.Gatekeeper.SanitizePosts(items)
     }
