@@ -18,6 +18,7 @@ export const DefaultISearchParameters = a_Client.DefaultISearchParameters
 export type IClientOptions = a_Client.IClientOptions
 export type ISearchParameters = a_Client.ISearchParameters
 export type Nullable<T> = T | null
+export type PostRating = 'none'|'safe'|'questionable'|'explicit'
 export enum VoteState
 {
     Down = -1,
