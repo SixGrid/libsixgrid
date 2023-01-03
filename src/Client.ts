@@ -60,6 +60,15 @@ export const DefaultIClientOptions: IClientOptions = {
     endpoint: 'https://e926.net'
 }
 
+export interface IAutocompleteResult
+{
+    id: Number,
+    name: string,
+    post_count: Number,
+    category: Number,
+    antecedent_name?: object
+}
+
 export default class Client extends EventEmitter {
     public constructor(options: IClientOptions = DefaultIClientOptions) {
         super()
@@ -125,6 +134,20 @@ export default class Client extends EventEmitter {
     public FetchUser(id: number): Promise<User>
     {
         return this.Users.fetch(id)
+    }
+
+    public async FetchAutocomplete(type: string, query: string): Promise<IAutocompleteResult[]>
+    {
+        let res = await this.WebClient.get(`/tags/autocomplete.json?search[${type}]=${encodeURIComponent(query)}`)
+        if (res.statusCode == 200)
+        {
+            let response = res.toJSON()
+            return response as IAutocompleteResult[]
+        }
+        else
+        {
+            return []
+        }
     }
 
     public Auth: AuthR = null
