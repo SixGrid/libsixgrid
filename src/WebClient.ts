@@ -42,7 +42,7 @@ export default class WebClient extends EventEmitter {
             Object.entries(options.Headers || []).concat(Object.entries(this.Headers))
         )
         // Force User-Agent header to be in our format :p
-        this.Headers['User-Agent'] = `libsixgrid/${this.Client.Product.version} (by bjorkin on e621)`
+        this.Headers['User-Agent'] = `${this.Client.Product.name}/${this.Client.Product.version} (by bjorkin on e621)`
         this.Auth = options.Auth;
         this.BaseURL = options.BaseURL || this.BaseURL;
     }
