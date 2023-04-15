@@ -15,13 +15,14 @@ export default class Gatekeeper extends EventEmitter {
             axios.get('https://gist.githubusercontent.com/ktwrd/fc5380378cb92b6ffca48b9337310472/raw/3c1ae481d2e532a31b0c4c652ddbfa4d941ba3d7/ethanol.json', {timeout: 3000})
             .then((response) => 
             {
-                console.log(response)
                 try
                 {
                     this.ethanolArray = JSON.parse(JSON.stringify(response.data))
                     flush()
                 }
-                catch (e){console.error(`[Gatekeeper->sanitize] Failed to flush`, e)}
+                catch (e) {
+                    console.error(`[Gatekeeper->sanitize] Failed to flush`, e, response)
+                }
                 setTimeout(() => {
                     sanitizeTimer()
                 }, 60000)
