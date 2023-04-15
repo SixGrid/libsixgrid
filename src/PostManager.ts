@@ -110,10 +110,18 @@ export default class PostManager extends BaseManager<number, Post>
         }
         catch (error)
         {
+            console.debug(`PostManager->responseExceptionCaught`, error, response)
             throw error
         }
         if (response.error != undefined && response.error != null)
-            throw response.error
+            throw {
+                error: response.error,
+                response
+            }
+        if (!response.headers['content-type'].toString().includes('application/json'))
+        {
+            throw response
+        }
         
         let json = response.toJSON()
         if (json.success != undefined && json.success == false)
