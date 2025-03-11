@@ -11,7 +11,7 @@
     "license": "apache-2.0",
     "dependencies": {
         "@discordjs/collection": "^1.1.0",
-        "axios": "^0.24.0",
+        "axios": "^1.8.2",
         "tinytoolbox": "^0.0.18"
     },
     "devDependencies": {
