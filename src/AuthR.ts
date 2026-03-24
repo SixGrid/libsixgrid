@@ -43,7 +43,7 @@ export default class AuthR extends EventEmitter {
      */
     toString() : string {
         if (!this.Enable) return "";
-        return `login=${this.Username}&api_key=${this.APIKey}`;
+        return `login=${encodeURIComponent(this.Username)}&api_key=${encodeURIComponent(this.APIKey)}`;
     }
 
     /**
